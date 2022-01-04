@@ -33,7 +33,7 @@ func (t *tree) InOrderTraverse() {
 
 func insert(root *Node, key Element) (newRoot *Node) {
 	if root == nil {
-		newRoot = NewTreeNode(key)
+		newRoot = NewNode(key)
 		return newRoot
 	}
 	compared := root.element.CompareTo(key)

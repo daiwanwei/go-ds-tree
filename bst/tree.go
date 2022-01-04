@@ -19,7 +19,7 @@ func NewTree() Tree {
 }
 
 func (t *tree) Insert(e Element) {
-	newNode := NewTreeNode(e)
+	newNode := NewNode(e)
 	if t.root == nil {
 		t.root = newNode
 		return
@@ -125,7 +125,7 @@ func delete(node *Node, e Element) (newNode *Node) {
 			break
 		}
 	}
-	newNode = NewTreeNode(maxNodeInLeft.element)
+	newNode = NewNode(maxNodeInLeft.element)
 	newNode.right = node.right
 	newNode.left = delete(node.left, maxNodeInLeft.element)
 	return

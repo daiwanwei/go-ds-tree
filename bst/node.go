@@ -5,7 +5,7 @@ type Node struct {
 	left, right *Node
 }
 
-func NewTreeNode(element Element) *Node {
+func NewNode(element Element) *Node {
 	return &Node{
 		element: element,
 	}

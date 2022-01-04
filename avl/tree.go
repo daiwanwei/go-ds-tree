@@ -5,7 +5,7 @@ import "fmt"
 type Tree interface {
 	Insert(key Element)
 	Delete(key Element)
-	InorderTraverse()
+	InOrderTraverse()
 }
 
 type tree struct {
@@ -16,8 +16,8 @@ func NewTree() Tree {
 	return &tree{}
 }
 
-func (t *tree) Insert(key Element) {
-	newRoot := insert(t.root, key)
+func (t *tree) Insert(e Element) {
+	newRoot := insert(t.root, e)
 	t.root = newRoot
 }
 
@@ -29,8 +29,8 @@ func (t *tree) Delete(key Element) {
 	t.root = newRoot
 }
 
-func (t *tree) InorderTraverse() {
-	inorderTraverse(t.root)
+func (t *tree) InOrderTraverse() {
+	inOrderTraverse(t.root)
 }
 
 func leftRotate(root *Node) (newRoot *Node) {
@@ -128,11 +128,11 @@ func greatest(node *Node) (max *Node) {
 	return greatest(node.right)
 }
 
-func inorderTraverse(node *Node) {
+func inOrderTraverse(node *Node) {
 	if node == nil {
 		return
 	}
 	fmt.Println(node.element)
-	inorderTraverse(node.left)
-	inorderTraverse(node.right)
+	inOrderTraverse(node.left)
+	inOrderTraverse(node.right)
 }

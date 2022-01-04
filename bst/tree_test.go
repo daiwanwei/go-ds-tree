@@ -1,4 +1,4 @@
-package avl
+package bst
 
 import (
 	"fmt"

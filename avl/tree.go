@@ -1,7 +1,5 @@
 package avl
 
-import "fmt"
-
 type Tree interface {
 	Insert(key Element)
 	Delete(key Element)
@@ -31,26 +29,6 @@ func (t *tree) Delete(key Element) {
 
 func (t *tree) InOrderTraverse() {
 	inOrderTraverse(t.root)
-}
-
-func leftRotate(root *Node) (newRoot *Node) {
-	newRoot = root.right
-	root.right = newRoot.left
-	newRoot.left = root
-
-	root.updateHeight()
-	newRoot.updateHeight()
-	return newRoot
-}
-
-func rightRotate(root *Node) (newRoot *Node) {
-	newRoot = root.left
-	root.left = newRoot.right
-	newRoot.right = root
-
-	root.updateHeight()
-	newRoot.updateHeight()
-	return newRoot
 }
 
 func insert(root *Node, key Element) (newRoot *Node) {
@@ -94,45 +72,4 @@ func delete(root *Node, key Element) (newRoot *Node, isDeleted bool) {
 	}
 	root.updateHeight()
 	return balanceTree(root), isDeleted
-}
-
-func balanceTree(root *Node) (newRoot *Node) {
-	bf := root.getBalanceFactor()
-	if bf > 1 {
-		leftNode := root.left
-		if leftNode != nil && leftNode.right == nil {
-			return rightRotate(root)
-		} else {
-			root.left = leftRotate(leftNode)
-			return rightRotate(root)
-		}
-	} else if bf < -1 {
-		rightNode := root.right
-		if rightNode != nil && rightNode.left == nil {
-			return leftRotate(root)
-		} else {
-			root.right = rightRotate(rightNode)
-			return leftRotate(root)
-		}
-	}
-	return root
-}
-
-func greatest(node *Node) (max *Node) {
-	if node == nil {
-		return nil
-	}
-	if node.right == nil {
-		return node
-	}
-	return greatest(node.right)
-}
-
-func inOrderTraverse(node *Node) {
-	if node == nil {
-		return
-	}
-	fmt.Println(node.element)
-	inOrderTraverse(node.left)
-	inOrderTraverse(node.right)
 }

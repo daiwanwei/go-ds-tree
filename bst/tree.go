@@ -115,19 +115,17 @@ func delete(node *Node, e Element) (newNode *Node) {
 	} else if node.left == nil {
 		return node.right
 	}
-	var maxNodeInLeft, traverseNode *Node
+	var traverseNode *Node
 	traverseNode = node.left
 	for {
 		if traverseNode != nil && traverseNode.right != nil {
-			maxNodeInLeft = traverseNode
 			traverseNode = traverseNode.right
 		} else {
 			break
 		}
 	}
-	newNode = NewNode(maxNodeInLeft.element)
-	newNode.right = node.right
-	newNode.left = delete(node.left, maxNodeInLeft.element)
+	node.element = traverseNode.element
+	newNode.left = delete(node.left, traverseNode.element)
 	return
 
 }

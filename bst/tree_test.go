@@ -34,4 +34,7 @@ func TestTree(t *testing.T) {
 	tree.Insert(element(1))
 	tree.InOrderTraverse()
 	fmt.Println("------------------------")
+	tree.Delete(element(5))
+	tree.InOrderTraverse()
+	fmt.Println("------------------------")
 }

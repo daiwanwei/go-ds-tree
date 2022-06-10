@@ -18,7 +18,7 @@ func (t *tree) Insert(e Element) {
 	node := NewNode(e)
 	newRoot := insert(t.root, node)
 	t.root = newRoot
-	t.fix(node)
+	t.fixUpForInsert(node)
 }
 
 func (t *tree) Delete(key Element) {
@@ -72,7 +72,68 @@ func delete(root *Node, key Element) (newRoot *Node, isDeleted bool) {
 	return root, isDeleted
 }
 
-func (t *tree) fix(node *Node) {
+func (t *tree) fixUpForInsert(node *Node) {
+	tr := node
+	for tr != nil && tr.parent != nil && tr.parent.color == Red {
+		parent := tr.parent
+		grandParent := parent.parent
+		if grandParent == nil {
+			return
+		}
+		var uncle *Node
+		if grandParent.left == parent {
+			uncle = grandParent.right
+			if uncle != nil && uncle.color == Red {
+				uncle.color = Black
+				parent.color = Black
+				grandParent.color = Red
+				tr = grandParent
+			} else {
+				if tr == parent.right {
+					newParent := leftRotate(parent)
+					newParent.color = Black
+					grandParent.color = Red
+					newGrandParent := rightRotate(grandParent)
+					tr = newGrandParent
+				} else {
+					parent.color = Black
+					grandParent.color = Red
+					newGrandParent := rightRotate(grandParent)
+					tr = newGrandParent
+				}
+			}
+		} else {
+			uncle = grandParent.left
+			if uncle != nil && uncle.color == Red {
+				uncle.color = Black
+				parent.color = Black
+				grandParent.color = Red
+				tr = grandParent
+			} else {
+				if tr == parent.left {
+					newParent := rightRotate(parent)
+					newParent.color = Black
+					grandParent.color = Red
+					newGrandParent := leftRotate(grandParent)
+					tr = newGrandParent
+				} else {
+					parent.color = Black
+					grandParent.color = Red
+					newGrandParent := leftRotate(grandParent)
+					tr = newGrandParent
+				}
+			}
+		}
+		if grandParent == t.root {
+			t.root = tr
+		}
+	}
+	if t.root != nil && t.root.color == Red {
+		t.root.color = Black
+	}
+}
+
+func (t *tree) fixUpForDelete(node *Node) {
 	tr := node
 	for tr != nil && tr.parent != nil && tr.parent.color == Red {
 		parent := tr.parent
